@@ -1,4 +1,4 @@
-# lesson-depot
+# BETCOIN
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -31,11 +31,22 @@ git commit -m "committing dist version now"
 git subtree push --prefix dist origin gh-pages
 ```
 
-### To install Tailwind use
+### Install the Tailwind CSS v4 alpha and the new Vite plugin:
 ``` sh
-npm install tailwindcss@next @tailwindcss/cli@next
+npm install tailwindcss@next @tailwindcss/vite@next
 ```
-### To run use
+
+### Then add the plugin to the vite.config.ts file:
 ``` sh
-npx @tailwindcss/cli@next -i app.css -o dist/app.css
+import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  plugins: [tailwindcss()],
+})
+```
+
+### Finally, import Tailwind in the main CSS file:
+``` sh
+@import "tailwindcss";
 ```
