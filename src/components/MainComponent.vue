@@ -10,7 +10,7 @@
 </template>
 <script setup>
     
-    import { ref, onMounted, defineExpose } from 'vue';
+    import { ref, onMounted } from 'vue';
 
     const tester = ref('tester');
 
@@ -280,10 +280,16 @@
         }
         }];
 
-
+        //Name the new trace as 'Mean', 'Upper Bound' and 'Lower Bound
+        data_mean[0].name = 'Mean';
+        data_9[0].name = 'Upper Bound';
+        data_1[0].name = 'Lower Bound';
         Plotly.addTraces(tester.value, data_mean);
         Plotly.addTraces(tester.value, data_9);
         Plotly.addTraces(tester.value, data_1);
+
+        // Update trace 0 to "Actual"
+        Plotly.restyle(tester.value, {name: 'Actual'}, 0);
 
     }
 

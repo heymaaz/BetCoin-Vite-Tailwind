@@ -40,7 +40,7 @@
     </footer>
 </template>
 <script setup>
-    import { defineExpose } from 'vue';
+    
 
     function year() {
         return new Date().getFullYear();

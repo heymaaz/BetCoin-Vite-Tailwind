@@ -92,7 +92,7 @@
   </template>
   
 <script setup>
-    import { ref, defineExpose } from 'vue';
+    import { ref } from 'vue';
 
     const isMenuOpen = ref(false);
 
