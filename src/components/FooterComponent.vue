@@ -40,13 +40,9 @@
     </footer>
 </template>
 <script setup>
-    
 
-    function year() {
-        return new Date().getFullYear();
-    }
+function year() {
+    return new Date().getFullYear();
+}
 
-    defineExpose({
-        year
-    });
 </script>
