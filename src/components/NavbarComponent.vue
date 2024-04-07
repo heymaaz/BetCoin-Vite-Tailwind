@@ -1,11 +1,6 @@
 <template>
     <div>
-        <nav class="relative px-4 py-4 flex justify-between items-center bg-white">
-            
-            <a class="text-3xl font-bold leading-none flex items-center" href="#">
-                <img class="h-10" src="../images/Bitcoin_46999.ico">
-                <span class="text-xl">BET-COIN.com</span>
-            </a>
+        <nav class="relative px-4 py-4 flex items-center bg-white">
             <div class="lg:hidden">
                 <button class="navbar-burger flex items-center text-blue-600 p-3" @click="toggleMenu">
                     <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -14,7 +9,12 @@
                     </svg>
                 </button>
             </div>
-            <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
+            <a class="text-3xl font-bold leading-none flex items-center" href="#">
+                <img class="h-10" src="../images/Bitcoin_46999.ico">
+                <span class="text-xl">BET-COIN.com</span>
+            </a>
+            
+            <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:w-auto lg:space-x-6">
                 <li v-for="crypto in cryptos" :key="crypto.symbol">
                     <a @click.prevent="changeCryptoSymbol(crypto.symbol)" class="text-sm text-gray-400 hover:text-gray-500" href="#">{{ crypto.symbol }}</a>
                 </li>
