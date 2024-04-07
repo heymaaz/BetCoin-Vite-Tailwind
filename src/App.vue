@@ -4,9 +4,17 @@ import { ref, provide } from 'vue';
 
 // Setup a reactive reference for the crypto symbol
 const cryptoSymbol = ref('BTC'); // Default value
+let cryptos = ref([
+{ Name: 'Bitcoin', symbol: 'BTC', price: '$45,231.89' },
+{ Name: 'Ethereum', symbol: 'ETH', price: '$3,123.45' },
+{ Name: 'Ripple', symbol: 'XRP', price: '$0.75' },
+{ Name: 'Litecoin', symbol: 'LTC', price: '$123.45' },
+{ Name: 'Solana', symbol: 'SOL', price: '$123.45' }
+]);
 
 // Provide the cryptoSymbol so it can be injected in descendants
 provide('cryptoSymbol', cryptoSymbol);
+provide('cryptos', cryptos);
 
 // Optionally, provide a method to update this symbol
 const setCryptoSymbol = (symbol) => {

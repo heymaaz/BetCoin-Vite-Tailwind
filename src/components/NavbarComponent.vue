@@ -15,33 +15,10 @@
                 </button>
             </div>
             <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
-                <li><a @click.prevent="changeCryptoSymbol('BTC')"class="text-sm text-gray-400 hover:text-gray-500" href="#">BTC</a></li>
-                <li class="text-gray-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                    </svg>
+                <li v-for="crypto in cryptos" :key="crypto.symbol">
+                    <a @click.prevent="changeCryptoSymbol(crypto.symbol)" class="text-sm text-gray-400 hover:text-gray-500" href="#">{{ crypto.symbol }}</a>
                 </li>
-                <li><a @click.prevent="changeCryptoSymbol('ETH')"class="text-sm text-blue-600 font-bold" href="#">ETH</a></li>
-                <li class="text-gray-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                    </svg>
-                </li>
-                <li><a @click.prevent="changeCryptoSymbol('LTC')"class="text-sm text-gray-400 hover:text-gray-500" href="#">LTC</a></li>
-                <li class="text-gray-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                    </svg>
-                </li>
-                <li><a @click.prevent="changeCryptoSymbol('SOL')"class="text-sm text-gray-400 hover:text-gray-500" href="#">SOL</a></li>
-                <li class="text-gray-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" class="w-4 h-4 current-fill" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v0m0 7v0m0 7v0m0-13a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                    </svg>
-                </li>
-                <li><a @click.prevent="changeCryptoSymbol('XRP')"class="text-sm text-gray-400 hover:text-gray-500" href="#">XRP</a></li>
             </ul>
-            <a class="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200" href="#">Sentiment Analysis</a>
         </nav>
         <div class="navbar-menu relative z-50" :class="{ 'hidden': !isMenuOpen }">
             <!-- Menu content here -->
@@ -60,27 +37,10 @@
                 </div>
                 <div>
                     <ul>
-                        <li class="mb-1">
-                            <a @click.prevent="changeCryptoSymbol('BTC')"  class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">BTC</a>
-                        </li>
-                        <li class="mb-1">
-                            <a @click.prevent="changeCryptoSymbol('ETH')"  class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">ETH</a>
-                        </li>
-                        <li class="mb-1">
-                            <a @click.prevent="changeCryptoSymbol('LTC')"  class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">LTC</a>
-                        </li>
-                        <li class="mb-1">
-                            <a @click.prevent="changeCryptoSymbol('SOL')"  class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">SOL</a>
-                        </li>
-                        <li class="mb-1">
-                            <a @click.prevent="changeCryptoSymbol('XRP')"  class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">XRP</a>
+                        <li v-for="crypto in cryptos" :key="crypto.symbol">
+                            <a @click.prevent="changeCryptoSymbol(crypto.symbol)" class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="#">{{ crypto.symbol }}</a>
                         </li>
                     </ul>
-                </div>
-                <div class="mt-auto">
-                    <div class="pt-6">
-                        <a class="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl" href="#">Sentiment Analysis</a>
-                    </div>
                 </div>
             </nav>
         </div>
@@ -93,8 +53,13 @@ import { ref, inject } from 'vue';
 // Inject the setCryptoSymbol method
 const setCryptoSymbol = inject('setCryptoSymbol');
 
+let cryptos = inject('cryptos');
+
 // Example method to change the crypto symbol
 const changeCryptoSymbol = (symbol) => {
+    if (isMenuOpen.value) {
+        toggleMenu();
+    }
     setCryptoSymbol(symbol);
 };
 

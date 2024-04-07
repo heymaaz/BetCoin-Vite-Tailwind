@@ -52,13 +52,7 @@ let socket;
 
 const cryptoSymbol = inject('cryptoSymbol');
 
-let cryptos = ref([
-{ Name: 'Bitcoin', symbol: 'BTC', price: '$45,231.89' },
-{ Name: 'Ethereum', symbol: 'ETH', price: '$3,123.45' },
-{ Name: 'Ripple', symbol: 'XRP', price: '$0.75' },
-{ Name: 'Litecoin', symbol: 'LTC', price: '$123.45' },
-{ Name: 'Solana', symbol: 'SOL', price: '$123.45' }
-]);
+let cryptos = inject('cryptos');
 
 let showGeneratePredictions = ref(false);
 
@@ -76,7 +70,9 @@ onMounted(() => {
 });
 
 function initializeWebSocket() {
-    socket = new WebSocket("wss://0glkdb0fh8.execute-api.us-east-1.amazonaws.com/production");
+    if (!socket || socket.readyState === WebSocket.CLOSED) {
+        socket = new WebSocket("wss://0glkdb0fh8.execute-api.us-east-1.amazonaws.com/production");
+    }
     
     socket.onopen = () => {
         console.log('WebSocket Connected');
@@ -98,21 +94,25 @@ function initializeWebSocket() {
 }
 
 function requestLatestRates() {
-    socket.send(JSON.stringify({ 
+    let getLatestCryptoRates = JSON.stringify({ 
         action: 'getLatestCryptoRates'
-    }));
+    });
+    socket.send(getLatestCryptoRates);
+    console.log('Requesting getLatestCryptoRates: ', getLatestCryptoRates);
 }
 
 function requestInitialData() {
-    socket.send(JSON.stringify({ 
+    let requestInitialData = JSON.stringify({ 
         action: 'requestInitialData',
         data: cryptoSymbol._value
-    }));
+    });
+    socket.send(requestInitialData);
+    console.log('Requesting initial data: ', requestInitialData);
 }
 
 function handleWebSocketMessage(event) {
-    console.log("Message received.");
     const data = JSON.parse(event.data);
+    console.log('Message received:', data);
     if (data.type) {
         if (data.type === 'initialData') {
             startDate = data.startDate;
@@ -123,7 +123,6 @@ function handleWebSocketMessage(event) {
         } else if (data.type === 'SentimentData') {
             plotSentimentGraph(data);
         } else if (data.type === 'LatestCryptoRates') {
-            console.log('Latest rates:', data);
             const updatedCryptos = cryptos.value.map(crypto => {
                 const newPrice = data.latestRates[crypto.symbol];
                 if (newPrice) {
@@ -135,8 +134,6 @@ function handleWebSocketMessage(event) {
             
             // Now, replace the entire array to ensure reactivity.
             cryptos.value = updatedCryptos;
-            
-            console.log('Updated cryptos:', cryptos.value);
         }
         
     }
@@ -279,10 +276,12 @@ function updateChartWithPredictions(predictions) {
 }
 
 function getSentiment() {
+    let getSentiment = JSON.stringify({
+        action: 'getSentiment'
+    });
     // Send a message to the server to request sentiment data
-    socket.send(JSON.stringify({
-        action: "getSentiment"
-    }));
+    socket.send(getSentiment);
+    console.log('Requesting sentiment data: ', getSentiment);
 }
 
 // Assuming `sentimentData` is the data received from your backend
@@ -298,9 +297,6 @@ function plotSentimentGraph(sentimentData) {
                 name: symbol
             };
             traces.push(trace);
-            console.log(`Symbol: '${symbol}'`);
-            console.log(`Type of symbol: ${typeof symbol}`);
-            
         }
     });
     
